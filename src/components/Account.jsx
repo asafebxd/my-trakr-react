@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 export default function Account(props) {
   // const accounts = props.accounts;
@@ -12,9 +13,16 @@ export default function Account(props) {
       id: accounts.length + 1,
       name: accountName,
     };
+    axios
+      .post('/accounts', { newAccount })
+      .then((res) => {
+        console.log('res', res);
+        setAccounts(res.data);
+      })
+      .catch((err) => console.log('err', err));
     // accounts.push(newAccount); BAD IDEA
-    const updatedAccounts = [...accounts, newAccount];
-    setAccounts(updatedAccounts);
+    // const updatedAccounts = [...accounts, newAccount];
+    // setAccounts(updatedAccounts);
   };
   const handleInputChange = (e) => {
     setAccountName(e.target.value);
