@@ -1,16 +1,11 @@
-import React from 'react'
-import Account from './Account'
-import AccountSummary from './AccountSummary'
-import Transaction from './Transaction.jsx'
-import TransactionsList from './TransactionsList'
+import React, { useState } from 'react';
+import Account from './Account';
 
 export default function Main() {
+  const [accounts, setAccounts] = useState([]);
   return (
     <main>
-      <Account />
-      <Transaction/>
-      {/* <AccountSummary /> */}
-      {/* <TransactionsList /> */}
+      <Account accounts={accounts} setAccounts={setAccounts} />
     </main>
-  )
+  );
 }
