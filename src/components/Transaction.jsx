@@ -1,7 +1,9 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import Category from './Category';
 
 export default function Transaction(props) {
+  const { setTransactions, transactions } = props;
   const [formData, setFormData] = useState({
     id: 0,
     type: '',
@@ -14,9 +16,13 @@ export default function Transaction(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log('submitted form transaction');
+    axios
+      .post('/transaction', { newTransaction: formData })
+      .then((response) => {
+        setTransactions([...transactions, response.data]);
+      });
   };
   const handleChange = (event) => {
-    console.log('value type', event.target.value);
     const name = event.target.name;
     let value;
     if (
