@@ -1,10 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function Account(props) {
   // const accounts = props.accounts;
   // const setAccounts = props.setAccounts;
+
   const { accounts, setAccounts } = props;
   const [accountName, setAccountName] = useState('');
+  // run callback function every render of the component
+  // useEffect(() => {
+  //   //get request
+  //   axios.get('/accounts').then((response) => {
+  //     console.log('get acc response', response);
+  //     // setAccounts([...response.data]);
+  //   });
+  // });
+  // run once when the component first render
+  useEffect(() => {
+    //get request
+    axios.get('/accounts').then((response) => {
+      console.log('get acc response', response);
+      setAccounts([...response.data]);
+    });
+  }, []);
+  // run only when the element of dependency array updates / changes
+  // useEffect(() => {
+  //   //get request
+  //   axios.get('/accounts').then((response) => {
+  //     console.log('useEffect setAccounts', response);
+  //     setAccounts([...response.data]);
+  //   });
+  // }, [accounts] // dependency array
+  //);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log('submitted', accountName);
@@ -13,10 +41,13 @@ export default function Account(props) {
       name: accountName,
       transactions: [],
     };
-
+    axios.post('/accounts', { newAccount }).then((response) => {
+      console.log('post acc response', response);
+      setAccounts([...accounts, response.data]);
+    });
     // accounts.push(newAccount); BAD IDEA
-    const updatedAccounts = [...accounts, newAccount];
-    setAccounts(updatedAccounts);
+    // const updatedAccounts = [...accounts, newAccount];
+    // setAccounts(updatedAccounts);
   };
   const handleInputChange = (e) => {
     setAccountName(e.target.value);

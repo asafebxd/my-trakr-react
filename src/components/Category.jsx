@@ -31,7 +31,6 @@ export default function Category(props) {
       <button type='button' onClick={createCategory}>
         Add category
       </button>
-      {[1, 2, 'text']}
     </div>
   );
 }
