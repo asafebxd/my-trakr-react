@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
 
 export default function Category(props) {
-  const [categoryName, setCategoryName] = useState('');
   const [categories, setCategories] = useState([]);
+  const [categoryName, setCategoryName] = useState('');
   const createCategory = () => {
     const newCategory = {
       id: categories.length + 1,
       name: categoryName,
     };
-    const newCategories = [...categories, newCategory];
-    setCategories(newCategories);
+    setCategories([...categories, newCategory]);
   };
+  console.log('categories', categories);
+  const categoriesOptions = categories.map((category) => (
+    <option key={category.id} value={category.name}>
+      {category.name}
+    </option>
+  ));
   return (
     <div>
       <label htmlFor='category'>Category:</label>
-      <select name='category' onChange={props.handleChange} defaultValue=''>
+      <select name='category' defaultValue='' onChange={props.handleChange}>
         <option value=''>Select a category</option>
-        {categories.map((category) => (
-          <option key={category.id} value={category.name}>
-            {category.name}
-          </option>
-        ))}
+        {categoriesOptions}
       </select>
       <input
         type='text'
@@ -30,6 +31,7 @@ export default function Category(props) {
       <button type='button' onClick={createCategory}>
         Add category
       </button>
+      {[1, 2, 'text']}
     </div>
   );
 }
