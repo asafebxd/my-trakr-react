@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Category from './Category';
 
 export default function Transaction(props) {
@@ -12,8 +12,11 @@ export default function Transaction(props) {
     accountIdFrom: 0,
     accountIdTo: 0,
   });
+  const transactionTypeRef = useRef();
 
   const handleChange = (event) => {
+    transactionTypeRef.current = event.target;
+    console.log('current ref', transactionTypeRef.current);
     const name = event.target.name;
     let value;
     if (
