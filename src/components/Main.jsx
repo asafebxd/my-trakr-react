@@ -17,7 +17,7 @@ export default function Main() {
   // run useEffect once, when the page is first loaded
   useEffect(() => {
     axios.get('/accounts').then((res) => {
-      console.log('res', res.data);
+      console.log('get accounts data', res.data);
       setAccounts(res.data);
     });
   }, []);
@@ -28,6 +28,12 @@ export default function Main() {
   //     setAccounts(res.data);
   //   });
   // }, [transactions]);
+  useEffect(() => {
+    axios.get('/transactions').then((res) => {
+      console.log('get transactions data', res.data);
+      setTransactions(res.data);
+    });
+  }, []);
   return (
     <main>
       <Account accounts={accounts} setAccounts={setAccounts} />

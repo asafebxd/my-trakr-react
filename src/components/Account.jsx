@@ -12,12 +12,13 @@ export default function Account(props) {
     const newAccount = {
       id: accounts.length + 1,
       name: accountName,
+      transactions: [],
     };
     axios
       .post('/accounts', { newAccount })
       .then((res) => {
         console.log('res', res);
-        setAccounts(res.data);
+        setAccounts([...accounts, { ...res.data }]);
       })
       .catch((err) => console.log('err', err));
     // accounts.push(newAccount); BAD IDEA

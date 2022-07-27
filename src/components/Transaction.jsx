@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import Category from './Category';
 
@@ -6,7 +7,6 @@ export default function Transaction(props) {
   // const setTransactions = props.setTransactions
   // const transactions = props.transactions
   const [formData, setFormData] = useState({
-    id: 0,
     type: '',
     amount: 0,
     description: '',
@@ -28,29 +28,43 @@ export default function Transaction(props) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newFormData = { ...formData, id: transactions.length + 1 };
-    const newTransactions = [...transactions, newFormData];
-    setTransactions(newTransactions);
+    console.log('formData', formData);
+    axios
+      .post('/transaction', { newTransaction: formData })
+      .then((response) => {
+        console.log(response.data);
+        const newTransactions = [...transactions, ...response.data];
+        setTransactions(newTransactions);
+      });
+    // const newFormData = { ...formData, id: transactions.length + 1 };
   };
+
+  const handleRadioChange = (event) => {
+    handleChange(event);
+  };
+
+  const selectAccountId = (
+    <div>
+      <label htmlFor='accountId'>Account: </label>
+      <select name='accountId' onChange={handleChange} defaultValue=''>
+        <option value={''} disabled>
+          Select an account
+        </option>
+        {accountsOptions}
+      </select>
+    </div>
+  );
 
   return (
     <section>
       <h2>New Transaction Form</h2>
       <form onSubmit={handleSubmit}>
-        <div onChange={handleChange}>
+        <div onChange={handleRadioChange}>
           <input type='radio' name='type' value={'Deposit'} /> Deposit
           <input type='radio' name='type' value={'Withdrawal'} /> Withdrawal
           <input type='radio' name='type' value={'Transfer'} /> Transfer
         </div>
-        <div>
-          <label htmlFor='accountId'>Account: </label>
-          <select name='accountId' onChange={handleChange} defaultValue=''>
-            <option value={''} disabled>
-              Select an account
-            </option>
-            {accountsOptions}
-          </select>
-        </div>
+        {selectAccountId}
         <div>
           <label htmlFor='accountIdFrom'>From:</label>
           <select name='accountIdFrom' onChange={handleChange}>
