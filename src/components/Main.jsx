@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Account from './Account';
 import Transaction from './Transaction';
+import AccountSummary from './AccountSummary';
+import Table from './Table';
+import Filter from './Filter';
+
 import axios from 'axios';
 
 export default function Main() {
@@ -26,13 +30,22 @@ export default function Main() {
     });
   }, []);
   return (
-    <main>
-      <Account accounts={accounts} setAccounts={setAccounts} />
-      <Transaction
-        transactions={transactions}
-        setTransactions={setTransactions}
-        accounts={accounts}
-      />
+    <main style={{ width: '70%', margin: '80px auto' }}>
+      <section style={{ display: 'flex', gap: '100px' }}>
+        <Transaction
+          transactions={transactions}
+          setTransactions={setTransactions}
+          accounts={accounts}
+        />
+        <article style={{ width: '100%' }}>
+          <Account accounts={accounts} setAccounts={setAccounts} />
+          <AccountSummary />
+        </article>
+      </section>
+      <section>
+        <Filter />
+        <Table />
+      </section>
     </main>
   );
 }

@@ -92,7 +92,7 @@ export default function Transaction(props) {
   );
 
   return (
-    <section>
+    <article style={{ width: '100%' }}>
       <h2>New Transaction Form</h2>
       <form onSubmit={handleSubmit}>
         <div onChange={handleRadioChange}>
@@ -125,6 +125,6 @@ export default function Transaction(props) {
         </div>
         <button>Add Transaction</button>
       </form>
-    </section>
+    </article>
   );
 }

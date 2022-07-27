@@ -8,15 +8,15 @@ export const StyledHeader = styled.header`
     color: white;
 
     span {
-      display:${(props) => {
+      display: ${(props) => {
         console.log('show', props.show);
-        return props.show ? 'block;' : 'none;';
-      }}
+        return props.show ? 'block' : 'none';
+      }};
       color: blue;
     }
   }
 
   &:hover {
-    background-color: red;
+    background-color: ${(props) => props.color};
   }
 `;
