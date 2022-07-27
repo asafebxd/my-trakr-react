@@ -7,17 +7,22 @@ export default function Main() {
   const [accounts, setAccounts] = useState([]);
   const [transactions, setTransactions] = useState([]);
   useEffect(() => {
-    //get request
-    axios.get('/accounts').then((response) => {
-      console.log('get acc response', response.data);
-      setAccounts([...response.data]);
+    axios.get('/accounts').then((res) => {
+      console.log('get accounts data', res.data);
+      setAccounts(res.data);
     });
   }, []);
+  // run useEffect only when transactions state is changed
+  // useEffect(() => {
+  //   axios.get('https://my-trakr-api.herokuapp.com/accounts').then((res) => {
+  //     console.log('res', res.data);
+  //     setAccounts(res.data);
+  //   });
+  // }, [transactions]);
   useEffect(() => {
-    //get request
-    axios.get('/transactions').then((response) => {
-      console.log('get transactions response', response.data);
-      setTransactions([...response.data]);
+    axios.get('/transactions').then((res) => {
+      console.log('get transactions data', res.data);
+      setTransactions(res.data);
     });
   }, []);
   return (

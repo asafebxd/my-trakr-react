@@ -3,9 +3,8 @@ import React, { useState } from 'react';
 import Category from './Category';
 
 export default function Transaction(props) {
-  const { setTransactions, transactions } = props;
+  const { setTransactions, transactions, accounts } = props;
   const [formData, setFormData] = useState({
-    id: 0,
     type: '',
     amount: 0,
     description: '',
@@ -13,15 +12,7 @@ export default function Transaction(props) {
     accountIdFrom: 0,
     accountIdTo: 0,
   });
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('submitted form transaction');
-    axios
-      .post('/transaction', { newTransaction: formData })
-      .then((response) => {
-        setTransactions([...transactions, response.data]);
-      });
-  };
+
   const handleChange = (event) => {
     const name = event.target.name;
     let value;
@@ -39,30 +30,51 @@ export default function Transaction(props) {
     console.log('newFormData', newFormData);
     setFormData(newFormData);
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('formData', formData);
+    axios
+      .post('/transaction', { newTransaction: formData })
+      .then((response) => {
+        console.log(response.data);
+        const newTransactions = [...transactions, ...response.data];
+        setTransactions(newTransactions);
+      });
+    // const newFormData = { ...formData, id: transactions.length + 1 };
+  };
 
-  const accountsOptions = props.accounts.map((account) => (
+  const handleRadioChange = (event) => {
+    handleChange(event);
+  };
+
+  const accountsOptions = accounts.map((account) => (
     <option key={account.id} value={account.id}>
       {account.name}
     </option>
   ));
+
+  const selectAccountId = (
+    <div>
+      <label htmlFor='accountId'>Account: </label>
+      <select name='accountId' onChange={handleChange} defaultValue=''>
+        <option value={''} disabled>
+          Select an account
+        </option>
+        {accountsOptions}
+      </select>
+    </div>
+  );
+
   return (
     <section>
       <h2>New Transaction Form</h2>
       <form onSubmit={handleSubmit}>
-        <div onChange={handleChange}>
+        <div onChange={handleRadioChange}>
           <input type='radio' name='type' value={'Deposit'} /> Deposit
           <input type='radio' name='type' value={'Withdrawal'} /> Withdrawal
           <input type='radio' name='type' value={'Transfer'} /> Transfer
         </div>
-        <div>
-          <label htmlFor='accountId'>Account: </label>
-          <select name='accountId' defaultValue='' onChange={handleChange}>
-            <option value={''} disabled>
-              Select an account
-            </option>
-            {accountsOptions}
-          </select>
-        </div>
+        {selectAccountId}
         <div>
           <label htmlFor='accountIdFrom'>From:</label>
           <select name='accountIdFrom' defaultValue='' onChange={handleChange}>

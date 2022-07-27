@@ -48,11 +48,16 @@ export default function Account(props) {
       name: accountName,
       transactions: [],
     };
-    axios.post('/accounts', { newAccount }).then((response) => {
-      console.log('post acc response', response);
-      const newAccount = response.data;
-      setAccounts([...accounts, newAccount]);
-    });
+    axios
+      .post('/accounts', { newAccount })
+      .then((res) => {
+        console.log('res', res);
+        setAccounts([...accounts, { ...res.data }]);
+      })
+      .catch((err) => console.log('err', err));
+    // accounts.push(newAccount); BAD IDEA
+    // const updatedAccounts = [...accounts, newAccount];
+    // setAccounts(updatedAccounts);
   };
   const handleInputChange = (e) => {
     setAccountName(e.target.value);
