@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { StyledHeader } from './styles/Header.styles';
 
 export default function Header() {
+  const [show, setShow] = useState(true);
   return (
-    <header>
-      <h1>My Trakr React</h1>
-    </header>
+    <StyledHeader color='green' show={show}>
+      <h1>
+        My Trakr React <span>span</span>
+      </h1>
+    </StyledHeader>
   );
 }

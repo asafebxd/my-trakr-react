@@ -15,8 +15,6 @@ export default function Transaction(props) {
   const transactionTypeRef = useRef();
 
   const handleChange = (event) => {
-    transactionTypeRef.current = event.target;
-    console.log('current ref', transactionTypeRef.current);
     const name = event.target.name;
     let value;
     if (
@@ -47,6 +45,8 @@ export default function Transaction(props) {
   };
 
   const handleRadioChange = (event) => {
+    transactionTypeRef.current = event.target;
+    console.log('current ref', transactionTypeRef.current);
     handleChange(event);
   };
 
@@ -68,6 +68,29 @@ export default function Transaction(props) {
     </div>
   );
 
+  const selectsTransfer = (
+    <>
+      <div>
+        <label htmlFor='accountIdFrom'>From:</label>
+        <select name='accountIdFrom' defaultValue='' onChange={handleChange}>
+          <option value={''} disabled>
+            Select an account
+          </option>
+          {accountsOptions}
+        </select>
+      </div>
+      <div>
+        <label htmlFor='accountIdTo'>To:</label>
+        <select name='accountIdTo' defaultValue='' onChange={handleChange}>
+          <option value={''} disabled>
+            Select an account
+          </option>
+          {accountsOptions}
+        </select>
+      </div>
+    </>
+  );
+
   return (
     <section>
       <h2>New Transaction Form</h2>
@@ -77,25 +100,20 @@ export default function Transaction(props) {
           <input type='radio' name='type' value={'Withdrawal'} /> Withdrawal
           <input type='radio' name='type' value={'Transfer'} /> Transfer
         </div>
-        {selectAccountId}
-        <div>
-          <label htmlFor='accountIdFrom'>From:</label>
-          <select name='accountIdFrom' defaultValue='' onChange={handleChange}>
-            <option value={''} disabled>
-              Select an account
-            </option>
-            {accountsOptions}
-          </select>
-        </div>
-        <div>
-          <label htmlFor='accountIdTo'>To:</label>
-          <select name='accountIdTo' defaultValue='' onChange={handleChange}>
-            <option value={''} disabled>
-              Select an account
-            </option>
-            {accountsOptions}
-          </select>
-        </div>
+        {/* {
+          //check if selected transaction type === 'Transfer'
+          transactionTypeRef.current &&
+          transactionTypeRef.current.value === 'Transfer'
+            ? selectsTransfer //true case
+            : selectAccountId //false case
+        } */}
+        {
+          //check if selected transaction type === 'Transfer'
+          formData.type === 'Transfer'
+            ? selectsTransfer //true case
+            : selectAccountId //false case
+        }
+
         <Category handleChange={handleChange} />
         <div>
           <label htmlFor='description'>Description:</label>
