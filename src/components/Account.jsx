@@ -6,8 +6,11 @@ export default function Account(props) {
   // const accounts = props.accounts;
   // const setAccounts = props.setAccounts;
 
+
+
   const { accounts, setAccounts } = props;
   const [accountName, setAccountName] = useState('');
+  
   // const [account, setAccount] = useState({
   //   id:accounts.length+1,
   //   transactions:[]
